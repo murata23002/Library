@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0.32
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: library_db
+    volumes:
+      - ./migration.sql:/docker-entrypoint-initdb.d/migration.sql
+    ports:
+      - "3306:3306"
+
+  tomcat:
+    build: .
+    container_name: tomcat
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: rootpassword
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+volumes:
+  db_data: {}

@@ -1,0 +1,24 @@
+# IDE files
+.idea/
+.vscode/
+
+# Compiled class file
+*.class
+
+# Build and log files
+/target/
+/build/
+/logs/
+
+# Maven specific
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# Gradle specific
+.gradle/
+build/

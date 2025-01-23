@@ -1,0 +1,19 @@
+# Step 1: Build the application using Maven
+FROM maven:3.8.1-openjdk-8 AS build
+WORKDIR /app
+COPY pom.xml /app/
+RUN mvn dependency:go-offline
+
+COPY src /app/src/
+RUN mvn package -DskipTests
+
+# Step 2: Set up Tomcat and deploy the WAR file
+FROM tomcat:10.1.4-jdk8
+COPY --from=build /app/target/server.war /usr/local/tomcat/webapps/
+
+# Add MySQL JDBC Driver
+COPY --from=build /app/target/mysql-connector-java-8.0.30.jar /usr/local/tomcat/lib/
+
+# Expose port for Tomcat
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
